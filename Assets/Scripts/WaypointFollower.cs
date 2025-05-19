@@ -1,11 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class WaypointFollower : MonoBehaviour
 {
     [SerializeField] private float _speed;
 
     [SerializeField] private List<Transform> _waypoints;
+
+    private Transform _waypoint;
 
     private readonly float _closeDistance = 0.1f;
 
@@ -20,14 +23,28 @@ public class WaypointFollower : MonoBehaviour
     {
         if (_waypoints.Count != 0)
         {
-            Transform waypoint = _waypoints[_currentWaypointIndex];
+            _waypoint = _waypoints[_currentWaypointIndex];
 
-            transform.position = Vector3.MoveTowards(transform.position, waypoint.position, _speed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, _waypoint.position, _speed * Time.deltaTime);
 
-            Vector3 distance = waypoint.position - transform.position;
-
-            if (distance.sqrMagnitude <= Mathf.Pow(_closeDistance, 2))
+            if (IsTargetReached())
                 _currentWaypointIndex = ++_currentWaypointIndex % _waypoints.Count;
+
+            Debug.Log(IsTargetReached());
         }
     }
+
+    private bool IsTargetReached() => transform.position.IsEnoughClose(_waypoint.transform.position, _closeDistance);
+}
+
+public static class Vector3Extensions
+{
+    public static float SqrDistance(this Vector3 start, Vector3 end)
+    {
+        Debug.Log((end - start).sqrMagnitude);
+
+        return (end - start).sqrMagnitude;
+    }
+
+    public static bool IsEnoughClose(this Vector3 start, Vector3 end, float distance) => start.SqrDistance(end) <= Mathf.Pow(distance, 2);
 }
