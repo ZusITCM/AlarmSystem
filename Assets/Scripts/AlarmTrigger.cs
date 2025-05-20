@@ -1,16 +1,20 @@
+using System;
 using UnityEngine;
 
 public class AlarmTrigger : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public event Action CrookEntered;
+    public event Action CrookExited;
+
+    private void OnTriggerEnter(Collider collider)
     {
-        
+        if (collider.gameObject.TryGetComponent<Crook>(out _))
+            CrookEntered?.Invoke();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerExit(Collider collider)
     {
-        
+        if (collider.gameObject.TryGetComponent<Crook>(out _))
+            CrookExited?.Invoke();
     }
 }
