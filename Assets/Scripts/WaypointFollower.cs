@@ -7,9 +7,9 @@ public class WaypointFollower : MonoBehaviour
 
     [SerializeField] private List<Transform> _waypoints;
 
-    private Transform _waypoint;
-
     private readonly float _closeDistance = 0.8f;
+
+    private Transform _waypoint;
 
     private int _currentWaypointIndex;
 
@@ -43,5 +43,6 @@ public class WaypointFollower : MonoBehaviour
         transform.position = Vector3.MoveTowards(transform.position, _waypoint.position, _speed * Time.deltaTime);
     }
 
-    private bool IsTargetReached() => transform.position.IsEnoughClose(_waypoint.transform.position, _closeDistance);
+    private bool IsTargetReached() =>
+        transform.position.IsEnoughClose(_waypoint.transform.position, _closeDistance);
 }

@@ -7,9 +7,9 @@ public class Alarm : MonoBehaviour
 
     [SerializeField] private AlarmTrigger _alarmTrigger;
 
-    private float _changeStep = 1.0f;
-    private float _minVolue = 0.0f;
-    private float _maxVolue = 1.0f;
+    private readonly float _changeStep = 1.0f;
+    private readonly float _minVolue = 0.0f;
+    private readonly float _maxVolue = 1.0f;
 
     private bool _isCrookInside;
 
@@ -58,7 +58,8 @@ public class Alarm : MonoBehaviour
         _volumeCoroutine = StartCoroutine(nameof(ChangeVolumeSmooth), GetTargetVolue());
     }
 
-    private float GetTargetVolue() => _isCrookInside ? _maxVolue : _minVolue;
+    private float GetTargetVolue() =>
+        _isCrookInside ? _maxVolue : _minVolue;
 
     private IEnumerator ChangeVolumeSmooth(float targetVolume)
     {
