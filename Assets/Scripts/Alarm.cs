@@ -66,7 +66,7 @@ public class Alarm : MonoBehaviour
         if (_isCrookInside && _audioSource.isPlaying == false)
             _audioSource.Play();
 
-        while (_audioSource.volume != targetVolume)
+        while (Mathf.Approximately(_audioSource.volume, targetVolume) == false)
         {
             _audioSource.volume = Mathf.MoveTowards(_audioSource.volume, targetVolume, _changeStep * Time.deltaTime);
 
